@@ -1,10 +1,11 @@
 # Prints a per-video digest (metadata, cut stats, transcript, sheet paths) for items in tt_favorites_recent.json.
 # usage: python3 tt-digest.py <list: favorites|liked> <start> <end>
+import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")); from common import data
 import json, sys, os, glob
 lst, a, b = sys.argv[1], int(sys.argv[2]), int(sys.argv[3])
-d = json.load(open(os.path.expanduser("~/Desktop/social-chrome/tt_favorites_recent.json")))
+d = json.load(open(data("tt_favorites_recent.json")))
 for i, f in enumerate(d[lst][a:b], start=a):
-    D = os.path.expanduser(f"~/Desktop/social-chrome/tiktok/{f['id']}")
+    D = data("tiktok", f["id"])
     print(f"\n=== #{i} {f['url']}\n@{f['author']} ({f['authorName']}, {f['authorFollowers']} followers) | posted {f['postDate']} | {'PHOTO' if f['isPhoto'] else str(f['duration'])+'s'} | plays {f['plays']} likes {f['likes']} saves {f['saves']} shares {f['shares']} comments {f['comments']}")
     print("music:", f['music']); print("desc:", (f['desc'] or '').replace('\n', ' '))
     if f.get('stickers'): print("stickers:", f['stickers'])

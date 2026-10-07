@@ -1,8 +1,9 @@
 # Merge all search/*.json, dedupe, drop already-covered creators, print candidates ranked.
+import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")); from common import data
 import json, glob, sys
-COVERED = set(json.load(open('covered_authors.json')))
+COVERED = set(json.load(open(data('covered_authors.json'))))
 items, users, rel = {}, {}, {}
-for f in sorted([g for g in glob.glob('tt-search/*.json') if 'query' in open(g).read(200)]):
+for f in sorted([g for g in glob.glob(data('tt-search', '*.json')) if 'query' in open(g).read(200)]):
     d = json.load(open(f)); q = d['query']
     rel[q] = d.get('related', [])
     for i in d['items']:

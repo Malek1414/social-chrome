@@ -1,7 +1,8 @@
 # Summarise creators/<user>.json: followers, cadence, median plays, outliers, top/flop posts, bio.
+import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")); from common import data
 import json, sys, statistics as st, datetime as dt
 for u in sys.argv[1:]:
-    d = json.load(open(f'creators/{u}.json')); ui = d['userInfo'] or {}; s = ui.get('stats') or {}
+    d = json.load(open(data('creators', f'{u}.json'))); ui = d['userInfo'] or {}; s = ui.get('stats') or {}
     its = [i for i in d['items'] if i.get('plays')]
     nonpin = [i for i in its if not i['pinned']]
     print(f"\n##### @{u} | {ui.get('nickname')} | fol {s.get('followerCount')} | likes {s.get('heartCount')} | videos {s.get('videoCount')} | verified {ui.get('verified')}")

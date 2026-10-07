@@ -11,9 +11,13 @@
 /igdisc/*
 !/igdisc/*.sh
 !/igdisc/*.py
+!/igdisc/*.mjs
 !/own-ig/
 /own-ig/*
 !/own-ig/*.py
+!/own-ig/*.mjs
+!/own-ig/*.sh
 .DS_Store
+__pycache__/
 !/CLAUDE.md
 !/lib/

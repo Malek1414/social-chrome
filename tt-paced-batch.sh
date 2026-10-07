@@ -1,13 +1,12 @@
 #!/bin/zsh
-# usage: deep.sh list.txt ("author id" lines) -> tt-watch.sh each, paced so each video takes >=45-60 s, comments via tt-fetch
-cd ~/Desktop/social-chrome
+# usage: ./tt-paced-batch.sh list.txt ("author id" lines) -> tt-watch each, one video started every 45-60 s (min 20 s gap), stops on captcha
+cd "${0:A:h}"; source lib/batch.sh
 while read A ID; do
   [ -z "$ID" ] && continue
-  if [ -s tiktok/$ID/sheet_1.jpg ] && [ -s tiktok/$ID/transcript.txt ] && [ -s tiktok/$ID/comments.json ]; then echo "SKIP $ID"; continue; fi
-  T0=$(date +%s)
-  ./tt-watch.sh $A $ID < /dev/null; RC=$?
-  [ $RC -eq 2 ] && { echo "CAPTCHA - stopping"; exit 2; }
-  EL=$(( $(date +%s) - T0 )); W=$(( 45 + RANDOM % 16 - EL )); [ $W -lt 20 ] && W=20
+  tt_done $ID && { echo "SKIP $ID"; continue; }
+  T0=$SECONDS
+  tt_item $A $ID; [ $? -eq 2 ] && { echo "CAPTCHA - stopping"; wait; exit 2; }
+  W=$(( 45 + RANDOM % 16 - (SECONDS - T0) )); (( W < 20 )) && W=20
   sleep $W
 done < $1
-echo DEEP_DONE
+wait; echo DEEP_DONE

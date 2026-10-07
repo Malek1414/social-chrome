@@ -1,13 +1,14 @@
 # Per-video digest for discovery videos: meta from search/*.json or creators/*.json, cuts, transcript, top comments, sheets.
 # usage: python3 tt-vdigest.py <id> [<id>...]
+import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")); from common import data
 import json, sys, os, glob
 meta = {}
-for f in glob.glob('tt-search/*.json'):
+for f in glob.glob(data('tt-search', '*.json')):
     for i in json.load(open(f))['items']: meta.setdefault(i['id'], i)
-for f in glob.glob('creators/*.json'):
+for f in glob.glob(data('creators', '*.json')):
     for i in json.load(open(f))['items']: meta.setdefault(i['id'], {**i, 'author': os.path.basename(f)[:-5]})
 for vid in sys.argv[1:]:
-    m = meta.get(vid, {}); D = f'tiktok/{vid}'
+    m = meta.get(vid, {}); D = data('tiktok', vid)
     print(f"\n=== {m.get('url')} | @{m.get('author')} ({m.get('authorFollowers')} fol) | {m.get('created')} | {m.get('duration')}s | plays {m.get('plays')} likes {m.get('likes')} saves {m.get('saves')} shares {m.get('shares')} comments {m.get('comments')}")
     print('music:', m.get('music')); print('desc:', (m.get('desc') or '').replace('\n', ' '))
     if os.path.exists(D + '/cuts.txt'):

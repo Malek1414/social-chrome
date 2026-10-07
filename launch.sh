@@ -43,10 +43,11 @@ URLS=(
   --restore-last-session \
   "${URLS[@]}" >/dev/null 2>&1 &!
 
-touch "$PROFILE/.initialized"
-
 for i in {1..20}; do
-  curl -s "http://127.0.0.1:$PORT/json/version" >/dev/null 2>&1 && { echo "Social Chrome is ready on port $PORT."; exit 0; }
+  if curl -s "http://127.0.0.1:$PORT/json/version" >/dev/null 2>&1; then
+    touch "$PROFILE/.initialized"  # only once Chrome is really up, so a failed first start reopens the login tabs
+    echo "Social Chrome is ready on port $PORT."; exit 0
+  fi
   sleep 0.5
 done
 echo "Chrome started, but port $PORT never responded." >&2

@@ -1,7 +1,8 @@
 # Downloads media for x_bookmarks_recent.json items (and quoted-post media) from public twimg URLs, paced 5-10 s.
 # usage: python3 x-media.py   -> x/<tweet_id>/{video.mp4 | photo_N.jpg, meta.json}
+import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")); from common import data
 import json, os, random, subprocess, time
-H = os.path.expanduser("~/Desktop/social-chrome")
+H = data()
 d = json.load(open(f"{H}/x_bookmarks_recent.json"))
 def pick(m):
     v = m["variants"]; dur = (m.get("duration_ms") or 0) / 1000

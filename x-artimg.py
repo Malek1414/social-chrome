@@ -1,6 +1,7 @@
 # Downloads X Article cover + inline images for every x/<id>/thread.json (deduped by article title), paced 5-8 s.
+import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "lib")); from common import data
 import json, os, glob, random, subprocess, time
-H = os.path.expanduser("~/Desktop/social-chrome/x"); seen = set()
+H = data("x"); seen = set()
 for f in sorted(glob.glob(f"{H}/*/thread.json")):
     a = json.load(open(f)).get("article")
     if not a or a["title"] in seen: continue

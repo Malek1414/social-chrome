@@ -1,8 +1,9 @@
 # merge search/*.json -> ranked posts & creators, excluding known handles
+import sys, os; sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "lib")); from common import data
 import json, glob, sys, collections
 known = set(l.strip().lstrip('@') for l in open(sys.argv[1])) if len(sys.argv)>1 else set()
 seen = {}; qs = collections.defaultdict(set)
-for f in glob.glob('search/*.json'):
+for f in glob.glob(data('igdisc', 'search', '*.json')):
     d = json.load(open(f))
     for p in d['posts']:
         if not p.get('user'): continue
