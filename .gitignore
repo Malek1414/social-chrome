@@ -1,0 +1,17 @@
+# Code only. Everything Social Chrome captures (videos, frames, transcripts,
+# scraped JSON, logs, queues) stays on this Mac and out of git.
+/*
+!/.gitignore
+!/README.md
+!/*.mjs
+!/*.sh
+!/*.py
+!/*.command
+!/igdisc/
+/igdisc/*
+!/igdisc/*.sh
+!/igdisc/*.py
+!/own-ig/
+/own-ig/*
+!/own-ig/*.py
+.DS_Store
