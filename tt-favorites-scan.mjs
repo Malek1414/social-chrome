@@ -1,7 +1,8 @@
 // Exports the most recent TikTok Favorites (+ collections, + recent Liked) from the data the page itself loads.
 // usage: node tt-favorites-scan.mjs <username> [maxFav=100] [maxLiked=30]  -> tt_favorites_recent.json
 import fs from "fs";
-const [user = "malekhassann", maxFavArg, maxLikedArg] = process.argv.slice(2);
+const [user, maxFavArg, maxLikedArg] = process.argv.slice(2);
+if (!user) { console.error("usage: node tt-favorites-scan.mjs <your-tiktok-username> [maxFav] [maxLiked]"); process.exit(1); }
 const MAXF = Number(maxFavArg ?? 100), MAXL = Number(maxLikedArg ?? 30);
 const tabs = await (await fetch("http://127.0.0.1:9222/json/list")).json();
 const t = tabs.find(x => x.type === "page" && x.url.includes("tiktok.com"));

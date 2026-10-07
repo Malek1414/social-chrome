@@ -8,28 +8,38 @@ Scripts read only what a logged-in page loads for itself, and media is fetched
 from inside the page, so cookies never leave the browser. Batch scripts pace
 themselves (seconds to tens of seconds between items) and stop on a captcha.
 
-## Setup
+## Setup on a new Mac
+
+Easiest: open Claude Code anywhere and say
+
+> Set up Social Chrome from https://github.com/Malek1414/social-chrome
+
+Claude clones it, reads `CLAUDE.md` and runs the setup. By hand:
 
 ```bash
-./launch.sh            # or double-click "Social Chrome.command"
+git clone https://github.com/Malek1414/social-chrome.git ~/Desktop/social-chrome
+cd ~/Desktop/social-chrome
+./setup.sh          # tools + browser + Claude Code MCP; rerun anytime
+./setup.sh --check  # just report status
 ```
 
-It starts Chrome with its own profile (`~/Library/Application Support/SocialChrome`)
-and remote debugging on `127.0.0.1:9222`. The first run opens login tabs for each
-network; sign in once and the sessions persist.
-
-Connect Claude Code to it:
+You need macOS, [Homebrew](https://brew.sh) and Google Chrome. The script
+installs the rest: Node 22+, Python with Pillow, ffmpeg, yt-dlp, and
+`mlx_whisper` for transcripts (Apple Silicon only). It also registers the MCP
+server with Claude Code:
 
 ```bash
-claude mcp add social-chrome -- npx chrome-devtools-mcp@latest --browserUrl http://127.0.0.1:9222
+claude mcp add --scope user social-chrome -- npx -y chrome-devtools-mcp@latest --browserUrl http://127.0.0.1:9222
 ```
 
-Requirements: Google Chrome, Node 22+ (for the built-in `WebSocket`), Python 3
-with Pillow, `ffmpeg`/`ffprobe`, ImageMagick (`convert`), `whisper` for
-transcripts, and `yt-dlp` for a few fallbacks.
+Then sign in to each network once in the Social Chrome window and restart
+Claude Code.
 
-Paths are hard-coded to `~/Desktop/social-chrome`. Clone it there, or change the
-paths.
+Social Chrome is a separate Chrome with its own profile
+(`~/Library/Application Support/SocialChrome`) and remote debugging on
+`127.0.0.1:9222`, local only. Start it again later with `./launch.sh` or by
+double-clicking `Social Chrome.command`. Paths are hard-coded to
+`~/Desktop/social-chrome`, so clone it there.
 
 ## What's here
 
@@ -49,3 +59,9 @@ Every script starts with a usage line.
 Everything the scripts produce: videos, frames, contact sheets, transcripts,
 scraped JSON, queues and logs. The `.gitignore` is a whitelist, so new output
 folders stay out of the repo unless you add them on purpose.
+
+## Use responsibly
+
+Use it only with your own accounts, at a human pace, and within each
+platform's terms. It's for studying content, not for mass scraping or
+redistributing other people's media.

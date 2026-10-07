@@ -1,6 +1,6 @@
-import json, sys, statistics, datetime, collections
+import json, os, sys, statistics, datetime, collections
 for u in sys.argv[1:]:
-    try: d = json.load(open(f"/Users/malekhassan/Desktop/social-chrome/profiles/{u}_full.json"))
+    try: d = json.load(open(os.path.expanduser(f"~/Desktop/social-chrome/profiles/{u}_full.json")))
     except Exception as e: print("NOFILE", u); continue
     p = d['profile']; posts = [x for x in d['posts'] if x.get('date')]
     posts.sort(key=lambda x: x['date'], reverse=True)

@@ -15,3 +15,5 @@
 /own-ig/*
 !/own-ig/*.py
 .DS_Store
+!/CLAUDE.md
+!/lib/
