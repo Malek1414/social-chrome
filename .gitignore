@@ -3,6 +3,7 @@
 /*
 !/.gitignore
 !/README.md
+!/nutcracker.yaml
 !/*.mjs
 !/*.sh
 !/*.py

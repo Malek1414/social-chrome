@@ -1,0 +1,26 @@
+# Nutcracker adapter: how the Nutcracker hub (github.com/Malek1414/nutcracker) reaches social-chrome.
+# The hub runs its own DevTools MCP against the dedicated Chrome on 127.0.0.1:9222.
+name: socialchrome
+description: Dedicated logged-in Chrome for Instagram, TikTok and X, driven over DevTools
+connect:
+  mcp: { command: npx, args: [-y, "chrome-devtools-mcp@latest", --browserUrl, "http://127.0.0.1:9222"] }
+actions:
+  list_pages: read
+  take_snapshot: read
+  take_screenshot: read
+  list_network_requests: read
+  get_network_request: read
+  list_console_messages: read
+  get_console_message: read
+  wait_for: read
+  navigate_page: internal
+  new_page: internal
+  select_page: internal
+  close_page: internal
+  resize_page: internal
+  # Clicks, typing and scripts can like, follow or post on Malek's accounts, so they wait for approval.
+events:
+  - files: "profiles/*.json"
+    type: "socialchrome.profile.{kind}"
+  - files: "x_bookmarks_raw/*.json"
+    type: "socialchrome.xbookmarks.{kind}"
